@@ -3,7 +3,8 @@ import urllib.request
 import re
 import json
 from bs4 import BeautifulSoup
-import webbrowser
+import platform
+import os
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -31,6 +32,17 @@ def get_torrent_urls(show_list):
             torrent_urls.append('https://1337x.to{}'.format(anchorTags[0].get('href'))) # Selecting torrent with max seeds and leechers
     return torrent_urls
 
+def open_magnet_links(torrent_urls):
+    o = platform.system()
+    print(o)
+    for torrent in torrent_urls:
+        if(o == "Windows"):
+            os.startfile(torrent)
+        else:
+            xdg-open(torrent) #For linux users
+
+
+
 
 
 
@@ -40,6 +52,8 @@ show_list = get_show_names(file_path)
 s = parse_show_names(show_list)
 
 t = get_torrent_urls(s)
+
+open_magnet_links(t)
 
 print(t)
 # req = urllib.request.Request('https://1337x.to/search/narcos+season+3/1/', headers=headers)
