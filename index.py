@@ -53,16 +53,6 @@ s = parse_show_names(show_list)
 
 t = get_torrent_urls(s)
 
-open_magnet_links(t)
+# open_magnet_links(t)
 
 print(t)
-# req = urllib.request.Request('https://1337x.to/search/narcos+season+3/1/', headers=headers)
-
-# with urllib.request.urlopen(req) as response:
-#     parsedHtml = BeautifulSoup(response.read(), 'html.parser')
-#     anchorTags = parsedHtml.findAll('a', attrs={'href': re.compile("^/torrent/")})
-#     for link in anchorTags[:1]:
-#
-#         print(link.get('href'))
-# # with open('test2.png', 'b+w') as f:
-# #     f.write(g.read())
