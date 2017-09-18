@@ -1,38 +1,12 @@
-<!-- <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
-  </div>
-</template>
-
-<script>
-export default {
-  name: 'app',
-};
-</script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style> -->
-
-
 <template>
 <div>
   <app-bar/>
-  <tiles/>
-  <nav-bar/>
+  <tiles :update-cart-count = "updateCartCount"/>
+  <nav-bar :download-count = "count"/>
 </div>
 </template>
 
 <script>
-
 import AppBar from './AppBar';
 import Tiles from './Tiles';
 import NavBar from './NavBar';
@@ -43,6 +17,16 @@ export default {
     AppBar,
     Tiles,
     NavBar,
+  },
+  data() {
+    return {
+      count: 0,
+    };
+  },
+  methods: {
+    updateCartCount() {
+      this.count += 1;
+    },
   },
 };
 </script>

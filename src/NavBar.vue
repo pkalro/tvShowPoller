@@ -1,8 +1,10 @@
 <template>
   <mu-paper class="bottom-nav">
     <mu-bottom-nav :value="bottomNav" @change="handleChange">
-      <mu-bottom-nav-item value="movies" title="TV Shows" icon="ondemand_video"/>
-      <mu-bottom-nav-item value="music" title="Download cart" icon="music_note"/>
+      <mu-bottom-nav-item value="tv" title="TV Shows" icon="ondemand_video"/>
+      <mu-badge v-bind:content="downloadCount" circle secondary>
+        <mu-bottom-nav-item value="downloads" title="Download cart" icon="music_note"/>
+      </mu-badge>
     </mu-bottom-nav>
   </mu-paper>
 
@@ -11,10 +13,11 @@
 <script>
 export default {
   name: 'nav-bar',
+  props: ['downloadCount'],
   data() {
     return {
-      bottomNav: 'movies',
-      bottomNavColor: 'movies',
+      bottomNav: 'tv',
+      bottomNavColor: 'tv',
     };
   },
   methods: {
