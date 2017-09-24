@@ -4,8 +4,8 @@
     <mu-sub-header>Please select a show</mu-sub-header>
     <mu-grid-tile v-for="tile, index in list" :key="index">
       <img :src="tile.image.medium" class="tile-image"/>
-      <span :slot="tile.name">{{tile.name}}</span>
-      <span :slot="tile.runtime"><b>{{tile.runtime}}</b></span>
+      <span slot="title">{{tile.name}}</span>
+      <span slot="subTitle">Rating: <b>{{tile.rating.average}}</b></span>
       <mu-float-button secondary mini icon="add" slot="action" class="float-button" @click="addToCart(index)"/>
     </mu-grid-tile>
   </mu-grid-list>
@@ -22,12 +22,11 @@ export default {
     return {
       list: [],
       showIndex: [],
-      cart: [],
       num: 0,
       loading: false,
       scroller: null,
       startingIndex: 0,
-      width: 300,
+      width: 100,
       cols: 6,
     };
   },
@@ -42,8 +41,10 @@ export default {
       axios.get(`http://api.tvmaze.com/shows?page=${this.startingIndex}`)
         .then((response) => {
           this.showIndex = response.data;
+          console.log('title', this.showIndex[0].name);
           for (let i = 0; i < 50 && i < this.showIndex.length; i += 1) {
             this.list.push(this.showIndex[i]);
+            console.log('title', this.list[i]);
           }
           this.showIndex = this.showIndex.slice(50, this.showIndex.length);
           this.cols = Math.ceil(window.innerWidth / this.width);
@@ -64,10 +65,10 @@ export default {
       }, 2000);
     },
     addToCart(index) {
-      this.cart.push(this.list[index]);
+      const item = this.list[index];
       this.list.splice(index, 1);
       setTimeout(() => {
-        this.updateCartCount();
+        this.updateCartCount(item);
       }, 1000);
     },
   },

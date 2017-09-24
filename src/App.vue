@@ -1,6 +1,7 @@
 <template>
 <div>
   <app-bar/>
+  <downloads :cart="cart"/>
   <tiles :update-cart-count = "updateCartCount"/>
   <nav-bar :download-count = "count"/>
 </div>
@@ -10,6 +11,7 @@
 import AppBar from './AppBar';
 import Tiles from './Tiles';
 import NavBar from './NavBar';
+import Downloads from './Downloads';
 
 export default {
   name: 'app',
@@ -17,15 +19,18 @@ export default {
     AppBar,
     Tiles,
     NavBar,
+    Downloads,
   },
   data() {
     return {
       count: 0,
+      cart: [],
     };
   },
   methods: {
-    updateCartCount() {
+    updateCartCount(item) {
       this.count += 1;
+      this.cart.push(item);
     },
   },
 };
