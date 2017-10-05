@@ -1,7 +1,7 @@
 <template>
 <div>
   <app-bar/>
-  <downloads :cart="cart"/>
+   <downloads :cart="cart" :is-download-section-visible="isDownloadSectionVisible"/>
   <tiles :update-cart-count = "updateCartCount"/>
   <nav-bar :download-count = "count"/>
 </div>
@@ -25,12 +25,16 @@ export default {
     return {
       count: 0,
       cart: [],
+      isDownloadSectionVisible: false,
     };
   },
   methods: {
     updateCartCount(item) {
       this.count += 1;
       this.cart.push(item);
+    },
+    showDownloadSection() {
+      this.isDownloadSectionVisible = true;
     },
   },
 };

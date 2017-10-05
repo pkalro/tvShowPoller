@@ -1,5 +1,7 @@
-<template>
+<template v-if="isDownloadSectionVisible && cart.length">
   <div class="gridlist-demo-container">
+    <mu-flat-button label="Download the selected shows" class="demo-flat-button" icon="folder" secondary/>
+    <mu-divider/>
     <mu-grid-list class="gridlist-inline-demo">
       <mu-grid-tile v-for="tile, index in cart" :key="index">
         <img :src="tile.image.medium" class="tile-image"/>
@@ -8,16 +10,14 @@
         <mu-icon-button icon="star_border" slot="action"/>
       </mu-grid-tile>
     </mu-grid-list>
-  </br>
-     <mu-divider/>
-   </br>
+      <mu-divider/>
   </div>
 </template>
 
 <script>
 export default {
   name: 'downloads',
-  props: ['cart'],
+  props: ['cart', 'isDownloadSectionVisible'],
 };
 </script>
 
@@ -31,8 +31,11 @@ export default {
 .gridlist-inline-demo{
   display: flex;
   flex-wrap: nowrap;
-  width: 100%;
   overflow-x: auto;
+}
+
+.demo-flat-button {
+  margin: 12px;
 }
 
 </style>

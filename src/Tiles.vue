@@ -1,14 +1,13 @@
 <template v-if="list && list.length">
 <div class="gridlist-demo">
-  <mu-grid-list class="gridlist-demo-container" cols="cols">
+  <mu-list class="gridlist-demo-container" cols="cols">
     <mu-sub-header>Please select a show</mu-sub-header>
-    <mu-grid-tile v-for="tile, index in list" :key="index">
+    <mu-list-item v-for="tile, index in list" :key="index" @click="addToCart(index)">
       <img :src="tile.image.medium" class="tile-image"/>
       <span slot="title">{{tile.name}}</span>
-      <span slot="subTitle">Rating: <b>{{tile.rating.average}}</b></span>
-      <mu-float-button secondary mini icon="add" slot="action" class="float-button" @click="addToCart(index)"/>
-    </mu-grid-tile>
-  </mu-grid-list>
+      <span>Rating: <b>{{tile.rating.average}}</b></span>
+    </mu-list-item>
+  </mu-list>
   <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="loadMore" loadingText="Loading"/>
 </div>
 </template>
@@ -44,7 +43,6 @@ export default {
           console.log('title', this.showIndex[0].name);
           for (let i = 0; i < 50 && i < this.showIndex.length; i += 1) {
             this.list.push(this.showIndex[i]);
-            console.log('title', this.list[i]);
           }
           this.showIndex = this.showIndex.slice(50, this.showIndex.length);
           this.cols = Math.ceil(window.innerWidth / this.width);
@@ -69,7 +67,7 @@ export default {
       this.list.splice(index, 1);
       setTimeout(() => {
         this.updateCartCount(item);
-      }, 1000);
+      }, 2000);
     },
   },
 };
@@ -80,7 +78,6 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  -webkit-overflow-scrolling: touch;
   overflow: auto;
 }
 
@@ -92,11 +89,11 @@ export default {
 
 .tile-image {
   width: 100%;
-  padding: 5px;
+  padding: 2px;
 }
 
 .float-button {
-  margin-right: 12px;
+  margin-right: 25px;
 }
 
 </style>

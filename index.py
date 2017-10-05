@@ -13,6 +13,7 @@ headers = { 'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,ima
 file_path = './show_list.json'
 
 
+
 def get_show_names(path):
     with open(path, encoding='utf-8') as show_list_file:
         return json.load(show_list_file)
@@ -29,7 +30,13 @@ def get_torrent_urls(show_list):
         with urllib.request.urlopen(req_raw) as response:
             parsedHtml = BeautifulSoup(response.read(), 'html.parser')
             anchorTags = parsedHtml.findAll('a', attrs={'href': re.compile("^/torrent/")})
-            torrent_urls.append('https://1337x.to{}'.format(anchorTags[0].get('href'))) # Selecting torrent with max seeds and leechers
+            for link in anchorTags:
+                request = urllib.request.Request('https://1337x.to{}'.format(link.get('href')), headers = headers)
+                with urllib.request.urlopen(request) as response:
+                    parsedHtml = BeautifulSoup(response.read(), 'html.parser')
+                    print(parsedHtml)
+                    magnet_link = parsedHtml.findAll('a', attrs={'class': "magnet-link" })
+                    # torrent_urls.append(magnet_link.format(magnet_link[0].get('href'))) # Selecting magnet
     return torrent_urls
 
 def open_magnet_links(torrent_urls):
