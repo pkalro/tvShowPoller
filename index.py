@@ -12,7 +12,11 @@ headers = { 'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,ima
 
 file_path = './show_list.json'
 
-
+def parse_request(request, tag, attribute_object):
+    with urllib.request.urlopen(request) as response:
+        parsedHtml = BeautifulSoup(response.read(), 'html.parser')
+        filtered_tags = parsedHtml.findAll(tag, attrs=attribute_object)
+        return filtered_tags
 
 def get_show_names(path):
     with open(path, encoding='utf-8') as show_list_file:
@@ -27,17 +31,15 @@ def get_torrent_urls(show_list):
     for show_name in show_list:
         req_url = 'https://1337x.to/search/{}/1/'.format(show_name)
         req_raw = urllib.request.Request(req_url, headers = headers)
-        with urllib.request.urlopen(req_raw) as response:
-            parsedHtml = BeautifulSoup(response.read(), 'html.parser')
-            anchorTags = parsedHtml.findAll('a', attrs={'href': re.compile("^/torrent/")})
-            for link in anchorTags:
-                request = urllib.request.Request('https://1337x.to{}'.format(link.get('href')), headers = headers)
-                with urllib.request.urlopen(request) as response:
-                    parsedHtml = BeautifulSoup(response.read(), 'html.parser')
-                    print(parsedHtml)
-                    magnet_link = parsedHtml.findAll('a', attrs={'class': "magnet-link" })
-                    # torrent_urls.append(magnet_link.format(magnet_link[0].get('href'))) # Selecting magnet
+        torrent_links = parse_request(req_raw, 'a', {'href': re.compile("^/torrent/")})
     return torrent_urls
+
+def get_magnet_links(torrent_links):
+    magnet_links = []
+    for link in torrent_links:
+        request = urllib.request.Request('https://1337x.to{}'.format(link.get('href')), headers = headers)
+        magnet_links = parse_request(request, 'a', {'class': "magnet-link" })
+    return magnet_links
 
 def open_magnet_links(torrent_urls):
     o = platform.system()
@@ -48,18 +50,12 @@ def open_magnet_links(torrent_urls):
         else:
             xdg-open(torrent) #For linux users
 
-
-
-
-
-
-
 show_list = get_show_names(file_path)
 
 s = parse_show_names(show_list)
 
 t = get_torrent_urls(s)
 
-# open_magnet_links(t)
+m = get_magnet_links(t)
 
-print(t)
+open_magnet_links(m)
