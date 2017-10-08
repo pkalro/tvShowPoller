@@ -1,5 +1,7 @@
 <template v-if="list && list.length">
 <div class="gridlist-demo">
+  <mu-back-top :height="1" :bottom="100" :right="50" :duration="1000" :callBack="backTopCallBack">
+  </mu-back-top>
   <mu-list class="gridlist-demo-container" cols="cols">
     <mu-sub-header>Please select a show</mu-sub-header>
     <mu-list-item v-for="tile, index in list" :key="index" @click="addToCart(index)">
@@ -40,7 +42,6 @@ export default {
       axios.get(`http://api.tvmaze.com/shows?page=${this.startingIndex}`)
         .then((response) => {
           this.showIndex = response.data;
-          console.log('title', this.showIndex[0].name);
           for (let i = 0; i < 50 && i < this.showIndex.length; i += 1) {
             this.list.push(this.showIndex[i]);
           }
@@ -67,7 +68,10 @@ export default {
       this.list.splice(index, 1);
       setTimeout(() => {
         this.updateCartCount(item);
-      }, 2000);
+      }, 1000);
+    },
+    backTopCallBack() {
+
     },
   },
 };
@@ -83,7 +87,7 @@ export default {
 
 .gridlist-demo{
   width: 100%;
-  height: 700px;
+  height: 100%;
   overflow-y: auto;
 }
 

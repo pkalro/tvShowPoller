@@ -1,8 +1,7 @@
 <template v-if="isDownloadSectionVisible && cart.length">
   <div class="gridlist-demo-container">
-    <mu-flat-button label="Download the selected shows" class="demo-flat-button" icon="folder" secondary/>
     <mu-divider/>
-    <mu-grid-list class="gridlist-inline-demo">
+    <mu-grid-list class="gridlist-inline-demo" cols=Number(5) >
       <mu-grid-tile v-for="tile, index in cart" :key="index">
         <img :src="tile.image.medium" class="tile-image"/>
         <span slot="title">{{tile.name}}</span>
@@ -11,13 +10,14 @@
       </mu-grid-tile>
     </mu-grid-list>
       <mu-divider/>
+      <mu-raised-button label="Download" class="demo-raised-button" secondary @click="downloadShows"/>
   </div>
 </template>
 
 <script>
 export default {
   name: 'downloads',
-  props: ['cart', 'isDownloadSectionVisible'],
+  props: ['cart', 'downloadShows'],
 };
 </script>
 
@@ -28,10 +28,10 @@ export default {
   justify-content: space-around;
 }
 
-.gridlist-inline-demo{
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
+.gridlist-demo{
+  width: 500px;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .demo-flat-button {

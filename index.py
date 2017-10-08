@@ -5,6 +5,8 @@ import json
 from bs4 import BeautifulSoup
 import platform
 import os
+import sys
+import xdg
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -13,6 +15,7 @@ headers = { 'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,ima
 file_path = './show_list.json'
 
 def parse_request(request, tag, attribute_object):
+    anchors = []
     with urllib.request.urlopen(request) as response:
         parsedHtml = BeautifulSoup(response.read(), 'html.parser')
         filtered_tags = parsedHtml.findAll(tag, attrs=attribute_object)
@@ -32,13 +35,15 @@ def get_torrent_urls(show_list):
         req_url = 'https://1337x.to/search/{}/1/'.format(show_name)
         req_raw = urllib.request.Request(req_url, headers = headers)
         torrent_links = parse_request(req_raw, 'a', {'href': re.compile("^/torrent/")})
+        torrent_urls.append(torrent_links[0].get('href'))
     return torrent_urls
 
 def get_magnet_links(torrent_links):
     magnet_links = []
     for link in torrent_links:
-        request = urllib.request.Request('https://1337x.to{}'.format(link.get('href')), headers = headers)
-        magnet_links = parse_request(request, 'a', {'class': "magnet-link" })
+        request = urllib.request.Request('https://1337x.to{}'.format(link), headers = headers)
+        magnet_urls = parse_request(request, 'a', {'class': "dcfdbcda btn btn-cfaedbab" })
+        magnet_links.append(magnet_urls[0].get('href'))
     return magnet_links
 
 def open_magnet_links(torrent_urls):
@@ -57,5 +62,8 @@ s = parse_show_names(show_list)
 t = get_torrent_urls(s)
 
 m = get_magnet_links(t)
+
+
+
 
 open_magnet_links(m)
