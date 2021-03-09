@@ -1,6 +1,6 @@
 # tvshowpoller
 
-> A Vue.js project
+> A Vue.js project to show tv show list
 
 ## Build Setup
 
