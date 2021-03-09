@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "pkalro",
+      "name": "pkalro",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16688187?v=4",
+      "profile": "https://github.com/pkalro",
+      "contributions": [
+        "design"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "tvShowPoller",
+  "projectOwner": "pkalro",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
